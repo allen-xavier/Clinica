@@ -214,5 +214,5 @@ public class PacienteRepositoryTest {
 		Paciente pacienteDb = pacienteRepository.findOneByCpf(paciente.getCpf());
 		Assertions.assertThat(pacienteDb.getCpf()).isNull();
 	}
-	
+
 }
