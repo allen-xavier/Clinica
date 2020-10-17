@@ -195,5 +195,5 @@ public class PacienteRepositoryTest {
 		
 		Assertions.assertThat(pacienteRepository.findOneByCpf(paciente.getCpf())).isNull();
 	}
-	
+
 }
