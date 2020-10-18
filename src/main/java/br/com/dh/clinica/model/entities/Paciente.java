@@ -1,7 +1,6 @@
 package br.com.dh.clinica.model.entities;
 
 import java.time.LocalDate;
-//import java.util.List;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -12,7 +11,6 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +18,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Paciente {
 	@Id
 	private String cpf;

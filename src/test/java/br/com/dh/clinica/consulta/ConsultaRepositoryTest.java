@@ -1,6 +1,7 @@
 package br.com.dh.clinica.consulta;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -11,7 +12,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.dh.clinica.model.entities.Consulta;
+import br.com.dh.clinica.model.entities.Paciente;
 import br.com.dh.clinica.model.repositories.ConsultaRepository;
+import br.com.dh.clinica.model.repositories.PacienteRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -19,6 +22,9 @@ import br.com.dh.clinica.model.repositories.ConsultaRepository;
 public class ConsultaRepositoryTest {
 	@Autowired
 	ConsultaRepository consultaRepository;
+	
+	@Autowired
+	PacienteRepository pacienteRepository;
 	
 	/*
 	-codigo: int
@@ -35,26 +41,31 @@ public class ConsultaRepositoryTest {
 	@Test
 	public void verificaConsultaCodigoNull() {
 		Consulta consulta = new Consulta();
-		consulta.setCodigo(1);
+//		consulta.setCodigo(1);
+		// Precisa de importar o paciente
 		Paciente paciente = new Paciente();
-		consulta.setPaciente("123.456.789-99");
-		consulta.setData(LocalDate.of(2020, 2, 10));
+		consulta.setPaciente(paciente);
+//		consulta.setData(LocalDate.of(2020, 2, 10));
 		consulta.setValor(150.00);
 		consulta.setDescricao("dermatologia");			
 
 		consultaRepository.save(consulta);
 		
-		Consulta consultaDb = consultaRepository.findOneByCodigo(consulta.getCodigo());
-		Assertions.assertThat(consultaDb.getId()).isNotNull();
+		Optional<Consulta> consultaDb = consultaRepository.findById(consulta.getCodigo());
+		// Busca pelo código
+		Assertions.assertThat(consultaDb.get().getCodigo()).isNotNull();
 	}
 	
 	@Test
 	public void verificaConsultaPacienteNull() {
 		Consulta consulta = new Consulta();
+		Paciente paciente = new Paciente();
+		paciente.setCpf("123.456.789.55");
 		
-		consulta.setCodigo(1);
+		pacienteRepository.save(paciente);
 		
-
+		consulta.setPaciente(paciente);
+		
 		consultaRepository.save(consulta);
 		
 		Consulta consultaDb = consultaRepository.findOneByCodigo(consulta.getCodigo());
@@ -64,9 +75,7 @@ public class ConsultaRepositoryTest {
 	@Test
 	public void verificaConsultaDataNull() {
 		Consulta consulta = new Consulta();
-		
-		consulta.setCodigo(1);
-		
+		consulta.setData(LocalDate.of(2020,1,10));
 
 		consultaRepository.save(consulta);
 		
@@ -77,9 +86,7 @@ public class ConsultaRepositoryTest {
 	@Test
 	public void verificaConsultaValorNull() {
 		Consulta consulta = new Consulta();
-		
-		consulta.setCodigo(1);
-		
+		consulta.setValor(150.00);
 
 		consultaRepository.save(consulta);
 		
@@ -90,9 +97,7 @@ public class ConsultaRepositoryTest {
 	@Test
 	public void verificaConsultaDescricaoNull() {
 		Consulta consulta = new Consulta();
-		
-		consulta.setCodigo(1);
-		
+		consulta.setDescricao("Teste descricao");
 
 		consultaRepository.save(consulta);
 		
@@ -104,14 +109,12 @@ public class ConsultaRepositoryTest {
 	public void verificaConsultaAtualizada() {
 		Consulta consulta = new Consulta();
 		
-		consulta.setCodigo(1);
-		
-		
-		consulta.setValor("150.00");
+		// Valor como double
+		consulta.setValor(150.00);
 		
 		consultaRepository.save(consulta);
 		
-		consulta.setValor("200.00");
+		consulta.setValor(200.00);
 		
 		consultaRepository.save(consulta);
 		
@@ -122,15 +125,13 @@ public class ConsultaRepositoryTest {
 	@Test
 	public void verificaConsultaDeletada() {
 		Consulta consulta = new Consulta();
-		
-		consulta.setCodigo(1);
-		
-		
+		consulta.setPaciente(new Paciente());
+		//
 		consultaRepository.save(consulta);
 		
-		pacienteRepository.delete(consulta);
+		consultaRepository.delete(consulta);
 		
 		Consulta consultaDb = consultaRepository.findOneByCodigo(consulta.getCodigo());
-		Assertions.assertThat(consultaDb.getCodigo()).isNull();
+		Assertions.assertThat(consultaDb).isNull();
 	}
 }

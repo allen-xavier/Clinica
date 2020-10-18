@@ -1,5 +1,7 @@
 package br.com.dh.clinica.model.entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +12,6 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +19,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Consulta {
 	
 	@Id
@@ -26,14 +26,22 @@ public class Consulta {
 	private int codigo;
 	
 	@ManyToOne
-	@JoinColumn(name = "cpf")
+	@JoinColumn(name = "paciente")
 	@JsonIgnoreProperties("consulta")
 	private Paciente paciente;
 	
-	private String data;
-	private String valor;
+	// Serve para cadastrar o cpf do paciente no método post
+	// Por ser transiente ele não faz relação com o banco de dados
+	private transient String pacienteCpf;
+	
+	// data como LocalDate
+	private LocalDate data;
+	// Valor como double
+	private Double valor;
 	private String descricao;
-	private String dataConsulta;
+	
+	// Campo Repetido no db
+	// private LocalDate dataConsulta;
 	
 
 }

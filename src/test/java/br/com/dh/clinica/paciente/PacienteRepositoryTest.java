@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.dh.clinica.model.entities.Consulta;
 import br.com.dh.clinica.model.entities.Paciente;
-import br.com.dh.clinica.model.repositories.ConsultaRepository;
 import br.com.dh.clinica.model.repositories.PacienteRepository;
 
 @RunWith(SpringRunner.class)
@@ -24,8 +23,8 @@ public class PacienteRepositoryTest {
 	@Autowired
 	PacienteRepository pacienteRepository;
 	
-	@Autowired
-	ConsultaRepository consultaRepository;
+//	@Autowired
+//	ConsultaRepository consultaRepository;
 	
 	@Test
 	public void verificaPacienteCpfNull() {
