@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.dh.clinica.model.entities.Consulta;
+import br.com.dh.clinica.model.entities.Paciente;
 import br.com.dh.clinica.model.repositories.ConsultaRepository;
+import br.com.dh.clinica.model.repositories.PacienteRepository;
 
 @RestController
 @RequestMapping("consulta")
@@ -21,6 +23,11 @@ public class ConsultaController {
 	
 	@Autowired
 	private ConsultaRepository consultaRepository;
+	
+	// Criar o repositório de paciente para cadastrá-lo em consulta
+	// como chave estrangeira
+	@Autowired
+	private PacienteRepository pacienteRepository;
 	
 	@GetMapping
 	public Iterable<Consulta> getConsultas(){
@@ -34,6 +41,8 @@ public class ConsultaController {
 	
 	@PostMapping
 	public Consulta adicionarConsulta(@RequestBody Consulta consulta) {
+		Paciente paciente = pacienteRepository.findOneByCpf(consulta.getPacienteCpf());
+		consulta.setPaciente(paciente);
 		consultaRepository.save(consulta);
 		return consulta;
 	}
@@ -41,14 +50,19 @@ public class ConsultaController {
 	@PutMapping("/{codigo}")
 	public Consulta updateConsulta(@RequestBody Consulta consulta, @PathVariable int codigo) {
 		Consulta consultaDB = consultaRepository.findOneByCodigo(codigo);
+
+		// LocalDate != null		
+		if(consulta.getData() != null) consulta.setData(consulta.getData());
 		
-		if(!consulta.getData().isEmpty()) consulta.setData(consulta.getData());
+		// Valor != null
+		if(consulta.getValor() != null) consulta.setValor(consulta.getValor());
 		
-		if(!consulta.getValor().isEmpty()) consulta.setValor(consulta.getValor());
+		if(consulta.getDescricao().isEmpty() &&  consulta.getDescricao() != null)
+			consulta.setDescricao(consulta.getDescricao());
 		
-		if(!consulta.getDescricao().isEmpty()) consulta.setDescricao(consulta.getDescricao());
-		
-		if(!consulta.getDataConsulta().isEmpty()) consulta.setDataConsulta(consulta.getDataConsulta());
+		// LocalDate != null
+		//if(consulta.getDataConsulta() != null)
+			//consulta.setDataConsulta(consulta.getDataConsulta());
 		
 		consultaRepository.save(consultaDB);
 		return consultaDB;
