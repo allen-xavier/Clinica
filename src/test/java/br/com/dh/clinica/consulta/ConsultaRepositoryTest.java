@@ -2,12 +2,16 @@ package br.com.dh.clinica.consulta;
 
 import java.time.LocalDate;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import br.com.dh.clinica.model.entities.Consulta;
+import br.com.dh.clinica.model.repositories.ConsultaRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -34,7 +38,7 @@ public class ConsultaRepositoryTest {
 		consulta.setCodigo(1);
 		Paciente paciente = new Paciente();
 		consulta.setPaciente("123.456.789-99");
-		consulta.setData(new LocalDate.of(2020, 2, 10));
+		consulta.setData(LocalDate.of(2020, 2, 10));
 		consulta.setValor(150.00);
 		consulta.setDescricao("dermatologia");			
 
