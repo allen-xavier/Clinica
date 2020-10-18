@@ -24,8 +24,8 @@ public class PacienteRepositoryTest {
 	@Autowired
 	PacienteRepository pacienteRepository;
 	
-	@Autowired
-	ConsultaRepository consultaRepository;
+//	@Autowired
+//	ConsultaRepository consultaRepository;
 	
 	@Test
 	public void verificaPacienteCpfNull() {
