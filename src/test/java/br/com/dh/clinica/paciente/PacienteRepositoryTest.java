@@ -1,6 +1,7 @@
 package br.com.dh.clinica.paciente;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -11,6 +12,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import br.com.dh.clinica.model.entities.Consulta;
+import br.com.dh.clinica.model.entities.Paciente;
+import br.com.dh.clinica.model.repositories.PacienteRepository;
+
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -18,25 +23,8 @@ public class PacienteRepositoryTest {
 	@Autowired
 	PacienteRepository pacienteRepository;
 	
-	@Autowired
-	ConsultaRepository consultaRepository;
-	
-	/*
-		-cpf: string // pk not null-nome: string
-		-endereco: Endereco
-		-dataNascimento: date
-		-telefone: string
-		-dataPrimeiraConsulta: date
-		-email: string
-		-peso: int
-		-altura: int
-		-consultas: list<Consulta>
-		+getPeso()
-		+requisitarConsulta()
-		+getAltura()
-		+getDataPrimeiraConsulta()
-		+getConsultas()
-	*/
+//	@Autowired
+//	ConsultaRepository consultaRepository;
 	
 	@Test
 	public void verificaPacienteCpfNull() {
@@ -44,16 +32,16 @@ public class PacienteRepositoryTest {
 		paciente.setCpf("123.456.789-99");
 		paciente.setNome("Vanderson");
 		paciente.setEndereco("Rua Osaka");
-		paciente.setDataNascimento(new LocalDate.of(1991, 2, 28));
+		paciente.setDataNascimento(LocalDate.of(1991, 2, 28));
 		paciente.setTelefone("11 93214-4561");
-		paciente.setDataPrimeiraConsulta(new LocalDate.of(2020, 2, 10));
+		paciente.setDataPrimeiraConsulta(LocalDate.of(2020, 2, 10));
 		paciente.setEmail("vanderson@email.com");
 		paciente.setPeso(70);
 		paciente.setAltura(180);
 
 		pacienteRepository.save(paciente);
 		Paciente pacienteDb = pacienteRepository.findOneByCpf(paciente.getCpf());
-		Assertions.assertThat(pacienteDb.getId()).isNotNull();
+		Assertions.assertThat(pacienteDb.getCpf()).isNotNull();
 	}
 	
 	@Test
@@ -72,6 +60,7 @@ public class PacienteRepositoryTest {
 	public void verificaPacienteEnderecoNull() {
 		Paciente paciente = new Paciente();
 		paciente.setCpf("123.456.789-99");
+		paciente.setEndereco("Rua Osaka");
 
 		pacienteRepository.save(paciente);
 		
@@ -83,6 +72,7 @@ public class PacienteRepositoryTest {
 	public void verificaPacienteDataNascimentoNull() {
 		Paciente paciente = new Paciente();
 		paciente.setCpf("123.456.789-99");
+		paciente.setDataNascimento(LocalDate.of(1991, 2, 28));
 
 		pacienteRepository.save(paciente);
 		
@@ -94,6 +84,7 @@ public class PacienteRepositoryTest {
 	public void verificaPacienteTelefoneNull() {
 		Paciente paciente = new Paciente();
 		paciente.setCpf("123.456.789-99");
+		paciente.setTelefone("11 93214-4567");
 
 		pacienteRepository.save(paciente);
 		
@@ -105,6 +96,7 @@ public class PacienteRepositoryTest {
 	public void verificaPacienteDataPrimeiraConsultaNull() {
 		Paciente paciente = new Paciente();
 		paciente.setCpf("123.456.789-99");
+		paciente.setDataPrimeiraConsulta(LocalDate.of(2020,2,15));
 
 		pacienteRepository.save(paciente);
 		
@@ -116,6 +108,7 @@ public class PacienteRepositoryTest {
 	public void verificaPacienteEmailNull() {
 		Paciente paciente = new Paciente();
 		paciente.setCpf("123.456.789-99");
+		paciente.setEmail("vanderson@email.com");
 
 		pacienteRepository.save(paciente);
 		
@@ -127,6 +120,7 @@ public class PacienteRepositoryTest {
 	public void verificaPacientePesoNull() {
 		Paciente paciente = new Paciente();
 		paciente.setCpf("123.456.789-99");
+		paciente.setPeso(70);
 
 		pacienteRepository.save(paciente);
 		
@@ -138,6 +132,7 @@ public class PacienteRepositoryTest {
 	public void verificaPacienteAlturaNull() {
 		Paciente paciente = new Paciente();
 		paciente.setCpf("123.456.789-99");
+		paciente.setAltura(180);
 
 		pacienteRepository.save(paciente);
 		
@@ -148,40 +143,26 @@ public class PacienteRepositoryTest {
 	@Test
 	public void verificaPacienteConsultasNull() {
 		Paciente paciente = new Paciente();
-		paciente.setCpf("123.456.789-99");
+		paciente.setCpf("123.456.789-00");
+		paciente.setNome("Vanderson");
+		
+		pacienteRepository.save(paciente);
+		
 		Consulta consulta = new Consulta();
 		Consulta consulta2 = new Consulta();
-		
-		consulta.setCodigo(1);
-		consulta.setPaciente("123.456.789-99");
-		
-		consulta2.setCodigo(2);
-		consulta2.setPaciente("123.456.789-99");
-		
+		/*consulta.setPaciente(paciente);
+		consulta2.setPaciente(paciente);
 		consultaRepository.save(consulta);
-		consultaRepository.save(consulta2);
-
-		pacienteRepository.save(paciente);
+		consultaRepository.save(consulta2);//*/
 		
-		Paciente pacienteDb = pacienteRepository.findOneByCpf(paciente.getCpf());
-		Assertions.assertThat(pacienteDb.getConsultas()).isNotNull();
-	}
-	
-	@Test
-	public void verificaPacienteRequisitarConsulta() {
-		Paciente paciente = new Paciente();
-		paciente.setCpf("123.456.789-99");
-		Consulta consulta = new Consulta();
-		
-		consulta.setCodigo(1);
-		consulta.setPaciente("123.456.789-99");
-		
-		consultaRepository.save(consulta);
+		List<Consulta> consultas = new ArrayList<>();
+		consultas.add(consulta);
+		consultas.add(consulta2);
+		paciente.setConsultas(consultas);
 		
 		pacienteRepository.save(paciente);
-
-		Paciente pacienteDb = pacienteRepository.findOneByCpf(paciente.getCpf());
-		Assertions.assertThat(pacienteDb.getRequisitarConsulta(1)).isNotNull();
+		Assertions.assertThat(pacienteRepository.findOneByCpf(paciente.getCpf())
+				.getConsultas()).isNotNull();
 	}
 	
 	@Test
@@ -202,7 +183,7 @@ public class PacienteRepositoryTest {
 	}
 	
 	@Test
-	public void verificaPacienteDeletado() {
+	public void verificaPacienteDeletado() throws Exception {
 		Paciente paciente = new Paciente();
 		paciente.setCpf("123.456.789-99");
 		paciente.setNome("Vanderson");
@@ -211,8 +192,7 @@ public class PacienteRepositoryTest {
 		
 		pacienteRepository.delete(paciente);
 		
-		Paciente pacienteDb = pacienteRepository.findOneByCpf(paciente.getCpf());
-		Assertions.assertThat(pacienteDb.getCpf()).isNull();
+		Assertions.assertThat(pacienteRepository.findOneByCpf(paciente.getCpf())).isNull();
 	}
 
 }
