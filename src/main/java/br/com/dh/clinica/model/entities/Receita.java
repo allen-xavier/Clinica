@@ -1,14 +1,11 @@
 package br.com.dh.clinica.model.entities;
 
-import java.time.LocalDate;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -22,17 +19,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Receita {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int idReceita;
+	
+	@ManyToOne
+	@JoinColumn(name = "fk_consulta")
+	@JsonIgnoreProperties("receita")
+	private Consulta fk_consulta;
+	
+	private transient int codigoConsulta;
+	
 	private String descricao;
 	private Integer tempo;
 	private String dosagem;
-	
-	
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
-	
-	@OneToOne
-	@JoinColumn(name = "codigo")
-	@JsonIgnoreProperties("Receita")
-	private Receita receita;
 	
 }

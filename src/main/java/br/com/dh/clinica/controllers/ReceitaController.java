@@ -33,22 +33,22 @@ public class ReceitaController {
 		return receitaRepository.findAll();
 	}
 	
-	@GetMapping("/{id}")
-	public Optional<Receita> getReceita(@PathVariable int Id) {
-		return receitaRepository.findById(Id);
+	@GetMapping("/{idReceita}")
+	public Optional<Receita> getReceita(@PathVariable int idReceita) {
+		return receitaRepository.findById(idReceita);
 	}
 	
 	@PostMapping
 	public Receita adicionarReceita(@RequestBody Receita receita) {
-		Consulta consulta = consultaRepository.findOneByCodigo(receita.getId());
-		receita.setId(Id);;
+		Consulta fk_consulta = consultaRepository.findOneByCodigo(receita.getCodigoConsulta());
+		receita.setFk_consulta(fk_consulta);
 		receitaRepository.save(receita);
 		return receita;
 	}
 	
 	@PutMapping("/{id}")
 	public Receita updateReceita(@RequestBody Receita receita, @PathVariable int Id) {
-		Receita receitaDb = receitaRepository.findOneById(Id);
+		Receita receitaDb = receitaRepository.findOneByIdReceita(Id);
 
 		if (receita.getDescricao() != null
 				&& !receita.getDescricao().isEmpty()
@@ -71,8 +71,8 @@ public class ReceitaController {
 	
 	
 	@DeleteMapping("/id}")
-	public void deleteReceita(@PathVariable int Id) {
-		receitaRepository.deleteById(Id);
+	public void deleteReceita(@PathVariable int idReceita) {
+		receitaRepository.deleteById(idReceita);
 	}
 
 }
