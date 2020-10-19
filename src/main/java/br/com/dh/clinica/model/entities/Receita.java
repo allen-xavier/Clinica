@@ -20,12 +20,12 @@ import lombok.NoArgsConstructor;
 public class Receita {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idReceita;
+	private int codigo;
 	
 	@ManyToOne
-	@JoinColumn(name = "fk_consulta")
+	@JoinColumn(name = "consulta")
 	@JsonIgnoreProperties("receita")
-	private Consulta fk_consulta;
+	private Consulta consulta;
 	
 	private transient int codigoConsulta;
 	
