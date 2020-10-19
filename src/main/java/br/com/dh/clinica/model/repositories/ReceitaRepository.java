@@ -6,6 +6,6 @@ import br.com.dh.clinica.model.entities.Receita;
 
 public interface ReceitaRepository extends CrudRepository<Receita, Integer>{
 	
-	Receita findOneByIdReceita(int idReceita);
+	Receita findOneByCodigo(int codigo);
 	
 }

@@ -26,63 +26,55 @@ public class ReceitaRepositoryTest {
 	
 	@Test
 	public void verificaReceitaDescricaoNull() {
-		Receita receita = new Receita();
 		Consulta consulta = new Consulta();
-		consulta.setCodigo(12);
+		Receita receita = new Receita();
 		consultaRepository.save(consulta);
-		receita.setFk_consulta(consulta);
-		
+		receita.setConsulta(consulta);
 		receita.setDescricao("remedio para pressao");
 		receita.setDosagem("8 em 8 horas");
 		receita.setTempo(10);
 
 	    this.receitaRepository.save(receita);
-	    Receita receitaDb = this.receitaRepository.findOneByIdReceita(receita.getCodigoConsulta());
+	    Receita receitaDb = this.receitaRepository.findOneByCodigo(receita.getCodigo());
 	    Assertions.assertThat(receitaDb.getDescricao()).isNotNull();
 	  }
 	
 	@Test
 	public void verificaReceitaTempoNull() {
-		Receita receita = new Receita();
 		Consulta consulta = new Consulta();
-		consulta.setCodigo(12);
+		Receita receita = new Receita();
 		consultaRepository.save(consulta);
-		receita.setFk_consulta(consulta);
-		
+		receita.setConsulta(consulta);
 		receita.setDescricao("remedio para pressao");
 		receita.setDosagem("8 em 8 horas");
 		receita.setTempo(10);
 
 	    this.receitaRepository.save(receita);
-	    Receita receitaDb = this.receitaRepository.findOneByIdReceita(receita.getCodigoConsulta());
+	    Receita receitaDb = this.receitaRepository.findOneByCodigo(receita.getCodigo());
 	    Assertions.assertThat(receitaDb.getTempo()).isNotNull();
 	  }
 	
 	@Test
 	public void verificaReceitaDosagemNull() {
-		Receita receita = new Receita();
 		Consulta consulta = new Consulta();
-		consulta.setCodigo(12);
+		Receita receita = new Receita();
 		consultaRepository.save(consulta);
-		receita.setFk_consulta(consulta);
-		
+		receita.setConsulta(consulta);
 		receita.setDescricao("remedio para pressao");
 		receita.setDosagem("8 em 8 horas");
 		receita.setTempo(10);
 
 	    this.receitaRepository.save(receita);
-	    Receita receitaDb = this.receitaRepository.findOneByIdReceita(receita.getCodigoConsulta());
+	    Receita receitaDb = this.receitaRepository.findOneByCodigo(receita.getCodigo());
 	    Assertions.assertThat(receitaDb.getDosagem()).isNotNull();
 	  }
 	
 	@Test
 	public void verificaReceitaAtualizado() {
-		Receita receita = new Receita();
 		Consulta consulta = new Consulta();
-		consulta.setCodigo(12);
+		Receita receita = new Receita();
 		consultaRepository.save(consulta);
-		receita.setFk_consulta(consulta);
-		
+		receita.setConsulta(consulta);
 		receita.setDescricao("remedio para pressao");
 		receita.setDosagem("8 em 8 horas");
 		receita.setTempo(10);
@@ -92,18 +84,16 @@ public class ReceitaRepositoryTest {
 	    receita.setDescricao("remedio para alergia");
 		
 		receitaRepository.save(receita);
-	    Receita receitaDb = this.receitaRepository.findOneByIdReceita(receita.getCodigoConsulta());
+	    Receita receitaDb = this.receitaRepository.findOneByCodigo(receita.getCodigo());
 	    Assertions.assertThat(receitaDb.getDescricao()).isEqualTo(receita.getDescricao());
 	  }
 	
 	@Test
-	public void verificaReceitaDeletado() throws Exception {
-		Receita receita = new Receita();
+	public void verificaReceitaDeletado()  {
 		Consulta consulta = new Consulta();
-		consulta.setCodigo(12);
+		Receita receita = new Receita();
 		consultaRepository.save(consulta);
-		receita.setFk_consulta(consulta);
-		
+		receita.setConsulta(consulta);
 		receita.setDescricao("remedio para pressao");
 		receita.setDosagem("8 em 8 horas");
 		receita.setTempo(10);
@@ -112,7 +102,7 @@ public class ReceitaRepositoryTest {
 		
 	    receitaRepository.delete(receita);
 		
-		Assertions.assertThat(receitaRepository.findOneByIdReceita(receita.getCodigoConsulta())).isNull();
+		Assertions.assertThat(receitaRepository.findOneByCodigo(receita.getCodigoConsulta())).isNull();
 	}
 }
 
