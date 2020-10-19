@@ -1,16 +1,8 @@
 package br.com.dh.clinica.paciente;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-public class PacienteRepositoryTest {
-
-=======
-=======
->>>>>>> b5fde83759699550e73e3bacef7f1073124924f2
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -205,10 +197,5 @@ public class PacienteRepositoryTest {
 		
 		Assertions.assertThat(pacienteRepository.findOneByCpf(paciente.getCpf())).isNull();
 	}
-<<<<<<< HEAD
-	
->>>>>>> 528c05f90cadc337669ef3938d0d93f69f28669a
-=======
 
->>>>>>> b5fde83759699550e73e3bacef7f1073124924f2
 }
